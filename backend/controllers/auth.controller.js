@@ -23,6 +23,20 @@ export const register = async (req, res) => {
      });
 
     console.log("User registered successfully");
+    //generate token
+    const age = 1000 * 60 * 60 * 24 * 7;
+    const token = jwt.sign(
+      {
+        id: newUser.id,
+      },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: age,
+      }
+    );
+
+ 
+     res.status(200).json({ token,message: "Login successful" });
     sendResponse(res, 201, "User registered successfully");
   } catch (error) {
     console.error("User registration failed", error);
